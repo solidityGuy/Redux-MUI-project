@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -14,7 +14,6 @@ const Feed = () => {
         async function fetchData() {
             const request = await axios.get(fetchUrl);
             setMovies(request.data.results);
-            console.log(movies);
             return request;
         }
 
@@ -31,14 +30,20 @@ const Feed = () => {
             <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                 {movies.map((movie) => {
                             console.log(movie);
-                            const{id, title, poster_path, overview} = movie;
+                            const{id, title, name, poster_path, overview} = movie;
                             var poster = `https://image.tmdb.org/t/p/original${poster_path}`;
                         return(
-                        <div className="movieBox" key={id} style={{maxWidth:300, padding:20, margin:20, display: 'flex', flexDirection: 'column', justifyContent:'space-between', border:'1px solid #1e1e1e', borderRadius: '5px'}}>
-                            <h1>{title}</h1>
-                            <img src={poster} alt={title} height="250px" width="250px"/>
-                            <p>{overview}</p>
-                        </div>
+                        <Box className="movieBox" key={id} sx={{maxWidth:300, margin:2, padding:2, border:'3px solid #1e1e1e', backgroundColor: '#e1e1e1', borderRadius:10, '&:hover': {
+                            border: '3px solid #00ffff'
+                          },}}>
+                            <Box sx={{height:150, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                <Typography variant="h5">{title ? title : name}</Typography>
+                            </Box>
+                            <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                                <img src={poster} alt={title} height="250px" width="250px"/>
+                            </Box>
+                            <Typography variant="subtitle1" sx={{padding:2, paddingBottom: 0}}>{overview}</Typography>
+                        </Box>
                         );
                     })}
             </Box>

@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 const API_KEY = "7574dfa3f440636c752e8baf90fd52da";
 const FeedPopular = () => {
@@ -13,18 +13,20 @@ const FeedPopular = () => {
     const[query, setQuery] = useState(searchParams.get('query'));
 
     var fetchUrl = "";
-    if(query!=null){
-        fetchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query.replace(/ /g, "+")}`
-    }
+    const location = useLocation();
     useEffect(() => {
+        
+        if(location.search!=null){
+            var myQuery = location.search.split("=");
+            fetchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${myQuery[1]}`
+        }
         async function fetchData() {
             const request = await axios.get(fetchUrl);
             setMovies(request.data.results);
             return request;
         }
-
         fetchData();
-    }, [fetchUrl, searchParams.get('query')]);
+    }, [location.search]);
 
     const handleClick = () => {
         setRow(row + 1);
@@ -35,7 +37,6 @@ const FeedPopular = () => {
         <Box flex={9} p={2} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}} >
             <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                 {movies.map((movie) => {
-                            console.log(movie);
                             const{id, title, name, poster_path, overview} = movie;
                             var poster = `https://image.tmdb.org/t/p/original${poster_path}`;
                         return(

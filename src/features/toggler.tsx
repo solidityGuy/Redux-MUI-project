@@ -10,7 +10,6 @@ export const togglerSlice = createSlice({
     reducers: {
         show: (state) => {
             state.showSidebar = !state.showSidebar;
-            console.log(state.showSidebar);
         },
     }
 });

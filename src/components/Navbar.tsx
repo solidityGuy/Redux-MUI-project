@@ -2,8 +2,11 @@ import { alpha, AppBar, Box, IconButton, InputBase, styled, Toolbar, Typography 
 import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { useSelector, useDispatch } from 'react-redux';
 import { show } from '../features/toggler';
+import { useNavigate } from 'react-router-dom';
+import { flexbox } from '@mui/system';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -47,10 +50,30 @@ const Search = styled('div')(({ theme }) => ({
     },
   }));
 
+  const FilterIconWrapper = styled(Box)(() => ({
+    display: 'flex',
+    alignItems: 'center',
+    height: 40,
+    marginLeft: 10
+  }));
+
+
 const Navbar = () => {
 
     const toggleSide = useSelector((state:RootState) => state.toggler.showSidebar);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    function handleChange(e: React.KeyboardEvent<HTMLInputElement>) {
+      if(e.key==='Enter'){
+        const movie=e.currentTarget.value;
+        navigate({
+          pathname: '/results',
+          search: `?query=${movie}`,
+        })
+      }
+    }
+
     return (
         <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
           <AppBar position="sticky">
@@ -77,10 +100,14 @@ const Navbar = () => {
                   <SearchIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
+                  onKeyDown={handleChange}
                   placeholder="Search…"
                   inputProps={{ 'aria-label': 'search' }}
                 />
               </Search>
+              <FilterIconWrapper>
+                <FilterAltIcon/>
+              </FilterIconWrapper>
             </Toolbar>
           </AppBar>
         </Box>

@@ -15,7 +15,7 @@ const Sidebar = () => {
 
     return(
         <Box
-        flex={2}
+        flex={3}
         p={2} 
         sx={{ display: { xs: "none", sm: "block" } }}
         >

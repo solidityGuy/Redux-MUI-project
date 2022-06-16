@@ -8,16 +8,15 @@ import Footer from "../components/Footer";
 export const Home = () => {
 
     const toggleSide = useSelector((state:RootState) => state.toggler.showSidebar);
-
     return (
         <>
             <Box>
                 <Navbar />
                 <Stack direction="row" spacing={2} justifyContent="space-evenly">
-                <Box sx={{width:250}}>
+                <Box sx={{width:300}}>
                     {toggleSide && <Sidebar />}
                 </Box>
-                <Feed />
+                <Feed urlBody="trending/all/week" queryArgs=""/>
                 </Stack>
             </Box>
             <Footer/>

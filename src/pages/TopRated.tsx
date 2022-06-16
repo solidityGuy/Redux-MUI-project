@@ -2,8 +2,8 @@ import Sidebar from "../components/Sidebar";
 import { Box, Stack } from "@mui/material";
 import Navbar from "../components/Navbar";
 import { useSelector } from 'react-redux';
-import FeedPopular from "../components/FeedPopular";
 import Footer from "../components/Footer";
+import Feed from "../components/Feed";
 
 export const TopRated = () => {
 
@@ -17,7 +17,7 @@ export const TopRated = () => {
                 <Box sx={{width:250}}>
                     {toggleSide && <Sidebar />}
                 </Box>
-                <FeedPopular />
+                <Feed urlBody="movie/top_rated" queryArgs="" />
                 </Stack>
             </Box>
             <Footer />

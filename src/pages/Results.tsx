@@ -4,24 +4,30 @@ import Navbar from "../components/Navbar";
 import { useSelector } from 'react-redux';
 import Footer from "../components/Footer";
 import Feed from "../components/Feed";
-import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { MovieSearchParameters } from "../requests";
 
 export const Results = () => {
 
-    const location = useLocation();
+    const [searchParams, setSearchParams] = useSearchParams();
     const toggleSide = useSelector((state:RootState) => state.toggler.showSidebar);
-    const [query, setQuery] = useState(location.search.replace(/[?]/, "&"));
+
+    let searchElements:MovieSearchParameters = {
+        query:searchParams.get('query')!, 
+        language:searchParams.get('language')!, 
+        region:searchParams.get('region')!, 
+        year:searchParams.get('year')!, 
+    }
 
     return (
         <>
             <Box>
                 <Navbar />
                 <Stack direction="row" spacing={2} justifyContent="space-evenly">
-                <Box sx={{width:250}}>
+                <Box sx={{width:300}}>
                     {toggleSide && <Sidebar />}
                 </Box>
-                <Feed urlBody="search/movie" queryArgs={query} />
+                <Feed requestType="search" searchElements={searchElements}/>
                 </Stack>
             </Box>
             <Footer/>

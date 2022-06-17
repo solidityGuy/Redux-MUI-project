@@ -4,10 +4,12 @@ import { Box, Stack } from "@mui/material";
 import Navbar from "../components/Navbar";
 import { useSelector } from 'react-redux';
 import Footer from "../components/Footer";
+import { MovieSearchParameters } from "../requests";
 
 export const Home = () => {
 
     const toggleSide = useSelector((state:RootState) => state.toggler.showSidebar);
+    let searchElements:MovieSearchParameters = {query:"", language:"", region:"", year:""}
     return (
         <>
             <Box>
@@ -16,7 +18,7 @@ export const Home = () => {
                 <Box sx={{width:300}}>
                     {toggleSide && <Sidebar />}
                 </Box>
-                <Feed urlBody="trending/all/week" queryArgs=""/>
+                <Feed requestType="trend" searchElements={searchElements}/>
                 </Stack>
             </Box>
             <Footer/>
